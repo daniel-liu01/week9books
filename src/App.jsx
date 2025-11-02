@@ -4,6 +4,8 @@ import Modal from "./components/Modal.jsx";
 import BookForm from "./components/BookForm.jsx";
 import Filter from "./components/Filter.jsx";
 import ManageLoans from "./components/ManageLoans.jsx";
+import Overlay from "./components/Overlay.jsx";
+import Book from "./Book.jsx";
 
 function App() {
   const [books, setBooks] = useState(() => {
@@ -14,6 +16,7 @@ function App() {
   const [selectedBookId, setSelectedBookId] = useState(null);
   const [publisher, setPublisher] = useState("All");
   const [language, setLanguage] = useState("All");
+  const [showOverlay, setShowOverlay] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("books", JSON.stringify(books));
@@ -59,7 +62,8 @@ function App() {
     <div className="app-container">
       <h1 className="title">Book Catalog</h1>
       <div className="header">
-        <ManageLoans />
+        <ManageLoans onClick={() => setShowOverlay(true)} />
+
         <Filter
           filters={[
             {
@@ -70,6 +74,10 @@ function App() {
             },
           ]}
         />
+
+        {showOverlay && (
+          <Overlay books={books} onClose={() => setShowOverlay(false)} />
+        )}
       </div>
       <div className="books">
         <Modal
