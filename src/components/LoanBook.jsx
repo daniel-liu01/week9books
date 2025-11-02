@@ -5,36 +5,32 @@ export default function LoanBook({ books, updateBookStatus }) {
   const [borrower, setBorrower] = useState("John Smith");
   const [selectedBook, setSelectedBook] = useState("");
   const [weeks, setWeeks] = useState(1);
-  const [loans, setLoans] = useState([]);
 
   // Borrow a book
   function handleSubmit(e) {
     e.preventDefault();
     if (!selectedBook) return alert("Please select a book.");
 
+    const bookObj = books.find((b) => b.id === selectedBook);
+    if (!bookObj) return;
+
     const dueDate = new Date();
     dueDate.setDate(dueDate.getDate() + weeks * 7);
 
-    const newLoan = {
-      borrower,
-      book: selectedBook,
-      dueDate: dueDate.toLocaleDateString(),
-    };
-
-    setLoans([...loans, newLoan]);
-    updateBookStatus(selectedBook, "On Loan");
+    // Save due date in the book object
+    updateBookStatus(bookObj.id, "On Loan", dueDate.toLocaleDateString());
 
     setSelectedBook("");
     setWeeks(1);
   }
 
   // Return a book
-  function handleReturn(loanBookTitle) {
-    // Remove from loans
-    setLoans(loans.filter((loan) => loan.book !== loanBookTitle));
-    // Update status in main book list
-    updateBookStatus(loanBookTitle, "Available");
+  function handleReturn(bookId) {
+    updateBookStatus(bookId, "Available", null);
   }
+
+  // Get all books currently on loan
+  const loans = books.filter((b) => b.status === "On Loan");
 
   return (
     <div className="loan-manager">
@@ -61,8 +57,6 @@ export default function LoanBook({ books, updateBookStatus }) {
               .filter((b) => b.status !== "On Loan")
               .map((b) => (
                 <option key={b.id} value={b.id}>
-                  {" "}
-                  {/* use b.id here */}
                   {b.title}
                 </option>
               ))}
@@ -90,20 +84,20 @@ export default function LoanBook({ books, updateBookStatus }) {
         {loans.length === 0 ? (
           <p>No active loans</p>
         ) : (
-          loans.map((loan, i) => (
-            <div key={i} className="loan-item">
+          loans.map((loan) => (
+            <div key={loan.id} className="loan-item">
               <p>
-                <strong>Borrower:</strong> {loan.borrower}
+                <strong>Borrower:</strong> John Smith
               </p>
               <p>
-                <strong>Book:</strong> {loan.book}
+                <strong>Book:</strong> {loan.title}
               </p>
               <p>
                 <strong>Due date:</strong> {loan.dueDate}
               </p>
               <button
                 className="return-btn"
-                onClick={() => handleReturn(loan.book)}
+                onClick={() => handleReturn(loan.id)}
               >
                 Return Book
               </button>
