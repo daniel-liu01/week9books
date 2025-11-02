@@ -29,13 +29,15 @@
 }
 
 .book-cover {
-  height: 280px;
   width: 220px;
-  object-fit: cover;
-  display: block;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  height: 280px;
+  background-color: gray; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
+
 
 .book-info {
   width: 100%;
@@ -62,8 +64,7 @@
   text-decoration: none;
 }
 
-
-.new-button{
+.new-button {
   width: 220px;
   height: 370px;
   margin-left: 10px;
@@ -78,10 +79,10 @@
 }
 
 .new:hover {
-  color: white;            
+  color: white;
   background-color: gray;
-  cursor: pointer;           
-  transform: translateY(-4px); 
+  cursor: pointer;
+  transform: translateY(-4px);
 }
 
 .return-button {
@@ -89,10 +90,10 @@
 }
 
 .book.selected {
-  background-color: lightgrey; 
+  background-color: lightgrey;
 }
 
-.newBook-container{
+.newBook-container {
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -41,3 +41,9 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+.fields {
+  height: 30px;
+  border-radius: 4px;
+  margin-top: 4px;
+}

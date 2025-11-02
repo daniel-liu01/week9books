@@ -42,6 +42,7 @@ export default function LoanBook({ books, updateBookStatus }) {
         <label>
           Borrower:
           <input
+            className="fields"
             type="text"
             value={borrower}
             onChange={(e) => setBorrower(e.target.value)}
@@ -51,6 +52,7 @@ export default function LoanBook({ books, updateBookStatus }) {
         <label>
           Book:
           <select
+            className="fields"
             value={selectedBook}
             onChange={(e) => setSelectedBook(e.target.value)}
           >
@@ -70,6 +72,7 @@ export default function LoanBook({ books, updateBookStatus }) {
         <label>
           Loan period (in weeks):
           <input
+            className="fields"
             type="number"
             min="1"
             value={weeks}

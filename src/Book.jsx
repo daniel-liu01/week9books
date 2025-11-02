@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import './Book.css'; 
+import React, { useState } from "react";
+import "./Book.css";
 
 const Book = ({ image, price, url, onRemove, status }) => {
-
   const [selected, setSelected] = useState(false);
 
   const handleClick = () => {
@@ -11,32 +10,38 @@ const Book = ({ image, price, url, onRemove, status }) => {
 
   return (
     <div
-      className={`book ${selected ? 'selected' : ''}`}
+      className={`book ${selected ? "selected" : ""}`}
       onClick={handleClick}
+      style={{ position: "relative" }}
     >
       <div className="book-top">
         <button onClick={onRemove} className="remove-button">
           <span>Remove</span>
         </button>
-        <img src={image} alt="book-cover" className="book-cover" />
 
-        {status === "On Loan" && (
-          <div className="status-badge">
-            On Loan
-          </div>
-        )}
+        <div className="book-cover">
+          {image ? (
+            <img src={image} alt="book-cover" />
+          ) : (
+            <div className="placeholder" />
+          )}
+        </div>
+
+        {status === "On Loan" && <div className="status-badge">On Loan</div>}
       </div>
 
       <div className="book-info">
-        <p className="price">{price}</p>
-        <a
-          href={url}
-          className="learn-more"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn More
-        </a>
+        {price && <p className="price">{price}</p>}
+        {url && (
+          <a
+            href={url}
+            className="learn-more"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn More
+          </a>
+        )}
       </div>
     </div>
   );
