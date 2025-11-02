@@ -101,3 +101,16 @@
   display: flex;
   align-items: center;
 }
+
+.status-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: rgba(255, 0, 0, 0.8);
+  color: white;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  pointer-events: none; /* so it doesn’t block clicks */
+}

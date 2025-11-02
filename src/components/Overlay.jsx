@@ -2,7 +2,7 @@ import React from "react";
 import LoanBook from "./LoanBook";
 import "./Overlay.css";
 
-export default function Overlay({ onClose, books }) {
+export default function Overlay({ onClose, books, updateBookStatus }) {
   return (
     <div className="overlay">
       <div className="overlay-content">
@@ -12,7 +12,7 @@ export default function Overlay({ onClose, books }) {
         </button>
       </div>
 
-      <LoanBook books={books} />
+      <LoanBook books={books} updateBookStatus={updateBookStatus} />
     </div>
   );
 }

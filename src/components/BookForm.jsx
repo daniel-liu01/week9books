@@ -18,6 +18,7 @@ export default function BookForm({ add }) {
       language: data.get("language"),
       pages: data.get("pages"),
       url: data.get("url"),
+      status: "Available",
     });
 
     e.target.reset();

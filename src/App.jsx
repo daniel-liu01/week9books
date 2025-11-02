@@ -58,6 +58,13 @@ function App() {
     setSelectedBookId(null);
   }
 
+  function updateBookStatus(id, newStatus) {
+    const updatedBooks = books.map((book) =>
+      book.id === id ? { ...book, status: newStatus } : book
+    );
+    setBooks(updatedBooks);
+  }
+
   return (
     <div className="app-container">
       <h1 className="title">Book Catalog</h1>
@@ -76,7 +83,11 @@ function App() {
         />
 
         {showOverlay && (
-          <Overlay books={books} onClose={() => setShowOverlay(false)} />
+          <Overlay
+            books={books}
+            onClose={() => setShowOverlay(false)}
+            updateBookStatus={updateBookStatus}
+          />
         )}
       </div>
       <div className="books">
@@ -94,8 +105,14 @@ function App() {
               key={book.id}
               className={`book ${selectedBookId === book.id ? "selected" : ""}`}
               onClick={() => toggleSelectBook(book.id)}
+              style={{ position: "relative" }} 
             >
-              <img src={book.url} alt={book.title} />
+              <img src={book.url} alt={book.title} className="book-cover" />
+
+              {book.status === "On Loan" && (
+                <div className="status-badge">On Loan</div>
+              )}
+
               <p>{book.title}</p>
               <p>{book.author}</p>
               <p>{book.publisher}</p>

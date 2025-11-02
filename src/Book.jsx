@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import './Book.css'; 
 
-const Book = ({ image, price, url, onRemove }) => {
+const Book = ({ image, price, url, onRemove, status }) => {
+
+  const [selected, setSelected] = useState(false);
 
   const handleClick = () => {
     setSelected(!selected); // Toggle highlight
   };
-
-  const [selected, setSelected] = useState(false);
 
   return (
     <div
@@ -19,6 +19,12 @@ const Book = ({ image, price, url, onRemove }) => {
           <span>Remove</span>
         </button>
         <img src={image} alt="book-cover" className="book-cover" />
+
+        {status === "On Loan" && (
+          <div className="status-badge">
+            On Loan
+          </div>
+        )}
       </div>
 
       <div className="book-info">

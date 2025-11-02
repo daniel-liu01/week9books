@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "./LoanBook.css";
 
-export default function LoanBook({ books }) {
+export default function LoanBook({ books, updateBookStatus }) {
   const [borrower, setBorrower] = useState("John Smith");
   const [selectedBook, setSelectedBook] = useState("");
   const [weeks, setWeeks] = useState(1);
   const [loans, setLoans] = useState([]);
 
+  // Borrow a book
   function handleSubmit(e) {
     e.preventDefault();
     if (!selectedBook) return alert("Please select a book.");
@@ -21,8 +22,18 @@ export default function LoanBook({ books }) {
     };
 
     setLoans([...loans, newLoan]);
+    updateBookStatus(selectedBook, "On Loan");
+
     setSelectedBook("");
     setWeeks(1);
+  }
+
+  // Return a book
+  function handleReturn(loanBookTitle) {
+    // Remove from loans
+    setLoans(loans.filter((loan) => loan.book !== loanBookTitle));
+    // Update status in main book list
+    updateBookStatus(loanBookTitle, "Available");
   }
 
   return (
@@ -44,11 +55,15 @@ export default function LoanBook({ books }) {
             onChange={(e) => setSelectedBook(e.target.value)}
           >
             <option value="">Select a book</option>
-            {books.map((b) => (
-              <option key={b.id} value={b.title}>
-                {b.title}
-              </option>
-            ))}
+            {books
+              .filter((b) => b.status !== "On Loan")
+              .map((b) => (
+                <option key={b.id} value={b.id}>
+                  {" "}
+                  {/* use b.id here */}
+                  {b.title}
+                </option>
+              ))}
           </select>
         </label>
 
@@ -74,9 +89,21 @@ export default function LoanBook({ books }) {
         ) : (
           loans.map((loan, i) => (
             <div key={i} className="loan-item">
-              <p><strong>Borrower:</strong> {loan.borrower}</p>
-              <p><strong>Book:</strong> {loan.book}</p>
-              <p><strong>Due date:</strong> {loan.dueDate}</p>
+              <p>
+                <strong>Borrower:</strong> {loan.borrower}
+              </p>
+              <p>
+                <strong>Book:</strong> {loan.book}
+              </p>
+              <p>
+                <strong>Due date:</strong> {loan.dueDate}
+              </p>
+              <button
+                className="return-btn"
+                onClick={() => handleReturn(loan.book)}
+              >
+                Return Book
+              </button>
             </div>
           ))
         )}
