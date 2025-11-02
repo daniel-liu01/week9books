@@ -1,22 +1,22 @@
-import { useState, useEffect } from 'react';
-import './App.css';
-import Book from './Book.jsx';
-import Modal from './components/Modal.jsx';
-import BookForm from './components/BookForm.jsx';
-import Filter from './components/Filter.jsx';
+import { useState, useEffect } from "react";
+import "./App.css";
+import Modal from "./components/Modal.jsx";
+import BookForm from "./components/BookForm.jsx";
+import Filter from "./components/Filter.jsx";
+import ManageLoans from "./components/ManageLoans.jsx";
 
 function App() {
   const [books, setBooks] = useState(() => {
-    const stored = localStorage.getItem('books');
+    const stored = localStorage.getItem("books");
     return stored ? JSON.parse(stored) : [];
   });
 
   const [selectedBookId, setSelectedBookId] = useState(null);
-  const [publisher, setPublisher] = useState('All');
-  const [language, setLanguage] = useState('All');
+  const [publisher, setPublisher] = useState("All");
+  const [language, setLanguage] = useState("All");
 
   useEffect(() => {
-    localStorage.setItem('books', JSON.stringify(books));
+    localStorage.setItem("books", JSON.stringify(books));
   }, [books]);
 
   const allBooks = [...books];
@@ -25,14 +25,14 @@ function App() {
     new Set(
       allBooks
         .map((b) => b.language)
-        .filter((l) => l && l.trim() !== '' && l.trim().toLowerCase() !== 'all')
+        .filter((l) => l && l.trim() !== "" && l.trim().toLowerCase() !== "all")
     )
   );
 
   const filteredBooks = allBooks.filter(
     (book) =>
-      (publisher === 'All' || book.publisher === publisher) &&
-      (language === 'All' || book.language === language)
+      (publisher === "All" || book.publisher === publisher) &&
+      (language === "All" || book.language === language)
   );
 
   function addBook(book) {
@@ -57,12 +57,13 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1 className="header">Book Catalog</h1>
-      <div>
+      <h1 className="title">Book Catalog</h1>
+      <div className="header">
+        <ManageLoans />
         <Filter
           filters={[
             {
-              label: 'Language',
+              label: "Language",
               options: uniqueLanguages, // Removed 'All' from here
               selected: language,
               onChange: setLanguage,
@@ -71,7 +72,11 @@ function App() {
         />
       </div>
       <div className="books">
-        <Modal btnLabel="New" btnClassName="new-button" onDelete={handleDeleteSelected}>
+        <Modal
+          btnLabel="New"
+          btnClassName="new-button"
+          onDelete={handleDeleteSelected}
+        >
           <BookForm add={addBook} />
         </Modal>
 
@@ -79,7 +84,7 @@ function App() {
           {filteredBooks.map((book) => (
             <div
               key={book.id}
-              className={`book ${selectedBookId === book.id ? 'selected' : ''}`}
+              className={`book ${selectedBookId === book.id ? "selected" : ""}`}
               onClick={() => toggleSelectBook(book.id)}
             >
               <img src={book.url} alt={book.title} />
